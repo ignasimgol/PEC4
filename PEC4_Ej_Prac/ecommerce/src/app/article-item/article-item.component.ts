@@ -9,21 +9,21 @@ import { Article } from '../models/article.model';
   styleUrls: ['./article-item.component.css'],
   imports: [CommonModule], // Add CommonModule here
 })
+
 export class ArticleItemComponent {
   @Input() article!: Article;
 
-  // Inicializa la cantidad en 0
-  quantityInCart: number = 0;
-
-  // Método para incrementar la cantidad
+  // Incrementa la cantidad en el carrito
   incrementQuantity() {
-    this.quantityInCart++;
+    if (this.article.isOnSale) {
+      this.article.quantityInCart++;
+    }
   }
 
-  // Método para decrementar la cantidad, asegurándose de no bajar de 0
+  // Decrementa la cantidad en el carrito, pero no baja de 0
   decrementQuantity() {
-    if (this.quantityInCart > 0) {
-      this.quantityInCart--;
+    if (this.article.isOnSale && this.article.quantityInCart > 0) {
+      this.article.quantityInCart--;
     }
   }
 }

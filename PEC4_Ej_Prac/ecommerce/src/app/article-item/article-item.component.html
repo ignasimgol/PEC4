@@ -1,16 +1,21 @@
-<!-- article-item.component.html  -->
-
-<div class="article-item" [ngClass]="{ 'on-sale': article.isOnSale }">
-    <h2>{{ article.name }}</h2>
-    <img [src]="article.imageUrl" alt="{{ article.name }}" class="article-image">
-    <p>Price: ${{ article.price }}</p>
-    <p *ngIf="article.isOnSale" class="sale-notice">On Sale!</p>
-    <p>Quantity in Stock: {{ article.quantityInCart }}</p>
-
-    <div class="quantity-controls">
-      <button (click)="decrementQuantity()" [disabled]="quantityInCart === 0">-</button>
-      <span>{{ quantityInCart }}</span>
-      <button (click)="incrementQuantity()">+</button>
-    </div>
+<div class="article-item" [ngClass]="{ 'on-sale': article.isOnSale, 'not-available': !article.isOnSale }">
+  <h2>{{ article.name }}</h2>
+  <img [src]="article.imageUrl" alt="{{ article.name }}" class="article-image">
+  
+  <!-- Precio con ngClass para aplicar color gris si no está a la venta -->
+  <p [ngClass]="{ 'not-available': !article.isOnSale }">
+    Price: ${{ article.price }}
+  </p>
+  
+  <!-- Mensaje de "En oferta" si el artículo está disponible -->
+  <p *ngIf="article.isOnSale" class="sale-notice">On Sale!</p>
+  
+  <!-- Muestra la cantidad en el carrito solo si el artículo está a la venta -->
+  <div *ngIf="article.isOnSale" class="quantity-controls">
+    <button (click)="decrementQuantity()" [disabled]="article.quantityInCart === 0">-</button>
+    <span>{{ article.quantityInCart }}</span>
+    <button (click)="incrementQuantity()">+</button>
+  </div>
+  
 </div>
   
