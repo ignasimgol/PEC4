@@ -1,0 +1,24 @@
+.article-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s;
+  }
+  
+  .article-item.on-sale {
+    background-color: #e0ffe0; /* Fondo verde claro si está en venta */
+    border-color: #008000; /* Borde verde */
+  }
+  
+  .article-image {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .sale-notice {
+    color: #d9534f; /* Texto rojo para indicar venta */
+    font-weight: bold;
+  }
+  
