@@ -16,7 +16,7 @@ export class AppComponent {
 
   article: Article = {
     name: 'Sample Article',
-    imageUrl: 'https://via.placeholder.com/150',
+    imageUrl: 'https://mir-s3-cdn-cf.behance.net/project_modules/1400/d567e772955689.5bf95a82d957d.png',
     price: 29.99,
     isOnSale: true,
     quantityInCart: 2
