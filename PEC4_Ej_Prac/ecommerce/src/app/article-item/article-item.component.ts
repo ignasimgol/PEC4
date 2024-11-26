@@ -2,7 +2,6 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from 
 import { Article } from '../models/article.model';
 import { CommonModule } from '@angular/common';
 
-
 @Component({
   selector: 'app-article-item',
   standalone: true,
@@ -13,22 +12,27 @@ import { CommonModule } from '@angular/common';
 })
 export class ArticleItemComponent {
   @Input() article!: Article;
-  @Output() quantityChange = new EventEmitter<{ id: number, quantity: number }>(); // Emitir el id y la cantidad
+  @Output() quantityChange = new EventEmitter<{ id: number, quantity: number }>();
 
   // Emitir el evento cuando se incremente la cantidad
   incrementQuantity() {
-    this.quantityChange.emit({
-      id: this.article.id,
-      quantity: this.article.quantityInCart + 1
-    });
+    if (this.article.isOnSale) {
+      this.quantityChange.emit({
+        id: this.article.id,
+        quantity: this.article.quantityInCart + 1
+      });
+    }
   }
 
   // Emitir el evento cuando se decremente la cantidad
   decrementQuantity() {
-    this.quantityChange.emit({
-      id: this.article.id,
-      quantity: this.article.quantityInCart - 1
-    });
+    if (this.article.isOnSale && this.article.quantityInCart > 0) {
+      this.quantityChange.emit({
+        id: this.article.id,
+        quantity: this.article.quantityInCart - 1
+      });
+    }
   }
 }
+
 
