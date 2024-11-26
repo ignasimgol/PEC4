@@ -1,42 +1,33 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Article } from '../models/article.model';
-import { ArticleQuantityChange } from '../models/article-quantity-change.model'; // Importar la interfaz
+import { CommonModule } from '@angular/common';
+
 
 @Component({
-  standalone: true,
   selector: 'app-article-item',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './article-item.component.html',
   styleUrls: ['./article-item.component.css'],
-  imports: [CommonModule]
+  changeDetection: ChangeDetectionStrategy.OnPush // Optimización
 })
 export class ArticleItemComponent {
   @Input() article!: Article;
-  @Output() quantityChange = new EventEmitter<ArticleQuantityChange>(); // Definir el evento de salida
+  @Output() quantityChange = new EventEmitter<{ id: number, quantity: number }>(); // Emitir el id y la cantidad
 
-  // Incrementa la cantidad en el carrito
+  // Emitir el evento cuando se incremente la cantidad
   incrementQuantity() {
-    if (this.article.isOnSale) {
-      this.article.quantityInCart++;
-      // Emitir el cambio
-      this.emitQuantityChange();
-    }
-  }
-
-  // Decrementa la cantidad en el carrito, pero no baja de 0
-  decrementQuantity() {
-    if (this.article.isOnSale && this.article.quantityInCart > 0) {
-      this.article.quantityInCart--;
-      // Emitir el cambio
-      this.emitQuantityChange();
-    }
-  }
-
-  // Emitir el evento con la cantidad actual
-  private emitQuantityChange() {
     this.quantityChange.emit({
-      article: this.article,
-      quantity: this.article.quantityInCart
+      id: this.article.id,
+      quantity: this.article.quantityInCart + 1
+    });
+  }
+
+  // Emitir el evento cuando se decremente la cantidad
+  decrementQuantity() {
+    this.quantityChange.emit({
+      id: this.article.id,
+      quantity: this.article.quantityInCart - 1
     });
   }
 }
